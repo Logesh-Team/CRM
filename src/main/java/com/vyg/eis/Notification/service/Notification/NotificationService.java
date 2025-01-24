@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -38,23 +39,30 @@ public class NotificationService {
         this.commonService = commonService;
     }
 
-    public Notification saveNotification(Notification notification, String tmpFilePath)
+    public Notification saveNotification(Map<String, Object> payload, String mailTemplateFilePath)
             throws IOException, MessagingException {
 
+        Notification notification = new Notification();
+
+        notification.setRecipient((String) payload.get("recipient"));
+        notification.setSubject((String) payload.get("subject"));
+        notification.setMessage((String) payload.get("message"));
+        notification.setType((String) payload.get("type"));
         notification.setCreatedAt(LocalDateTime.now());
         notification.setStatus("PENDING");
-        sendNotification(notification, tmpFilePath);
+        sendEmailStandMode(notification, mailTemplateFilePath, (Map<String, String>) payload.get("placeholders"));
 
         return notificationRepository.save(notification);
     }
 
-    public void sendNotification(Notification notification, String tmpFilePath) throws IOException, MessagingException {
+    public void sendNotification(Notification notification, String mailTemplateFilePath, String mode)
+            throws IOException, MessagingException {
         // Based on the type, route to specific handlers
         switch (notification.getType()) {
             case "EMAIL":
                 CompletableFuture.runAsync(() -> {
                     try {
-                        sendEmail(notification, tmpFilePath);
+                        // sendEmail(notification, mailTemplateFilePath, mode);
                     } catch (Exception e) {
                         // Log the exception
                         e.printStackTrace();
@@ -74,12 +82,14 @@ public class NotificationService {
         notificationRepository.save(notification);
     }
 
-    private void sendEmail(Notification notification, String tmpFilePath) throws IOException, MessagingException {
+    private void sendEmailStandMode(Notification notification, String mailTemplateFilePath,
+            Map<String, String> placeholders)
+            throws IOException, MessagingException {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
 
-        // Configuration (similar to your previous code)
+        // Load mail configuration
         Path filePath = Paths.get("/opt/eVyoog/systemconfig/mailconfig.json");
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode = objectMapper.readTree(Files.readString(filePath));
@@ -102,8 +112,14 @@ public class NotificationService {
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
         // Read the template
-        Path templatePath = Paths.get(tmpFilePath);
+        Path templatePath = Paths.get(mailTemplateFilePath);
         String templateContent = Files.readString(templatePath);
+
+        // Replace placeholders with dynamic data
+        for (Map.Entry<String, String> entry : placeholders.entrySet()) {
+            templateContent = templateContent.replace("{{" + entry.getKey().toString() + "}}",
+                    entry.getValue().toString());
+        }
 
         // Set email details
         helper.setTo(notification.getRecipient().split(","));
@@ -113,7 +129,6 @@ public class NotificationService {
 
         // Send email
         mailSender.send(mimeMessage);
-        Files.delete(templatePath);
     }
 
     private void sendSms(Notification notification) {
@@ -124,8 +139,4 @@ public class NotificationService {
         // Push notification logic here
     }
 
-    public Optional<Notification> getNotificationById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getNotificationById'");
-    }
 }

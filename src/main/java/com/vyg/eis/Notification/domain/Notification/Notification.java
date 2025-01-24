@@ -26,10 +26,17 @@ public class Notification {
     private String message;
     private String type;
     private String status;
+
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @Column(name = "sent_at")
     private LocalDateTime sentAt;    
 
-    private String microserviceName;    
+    @Column(name = "microservice_name")
+    private String microserviceName;   
+
+    @Column(name = "resource_id")
     private String resourceId;
 
     

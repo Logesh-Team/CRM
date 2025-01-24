@@ -1,6 +1,7 @@
 package com.vyg.eis.Notification.controller.Notification;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +33,14 @@ public class NotificationController {
 
     
     @PostMapping("/save")
-    public ResponseEntity<Notification> createNotification(@RequestBody Notification notification,
+    public ResponseEntity<Notification> createNotification(@RequestBody Map<String, Object> payload,
             @RequestParam("templatePath") String templatePath) throws MessagingException, IOException {
-        Notification savedNotification = notificationService.saveNotification(notification, templatePath);
-        System.out.println("templatePath" + templatePath);
-        return new ResponseEntity<>(savedNotification, HttpStatus.CREATED);
+                System.out.println("payload+"+payload);
+         Notification savedNotification = notificationService.saveNotification(payload, templatePath);
+        
+        
+
+        return new ResponseEntity<>(new Notification(), HttpStatus.CREATED);
     }
 
 }
