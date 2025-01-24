@@ -90,16 +90,19 @@ public class NotificationService {
         mailSender.setPort(587);
 
         // Load mail configuration
-        Path filePath = Paths.get("/opt/eVyoog/systemconfig/mailconfig.json");
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode rootNode = objectMapper.readTree(Files.readString(filePath));
+        // Path filePath = Paths.get("/opt/eVyoog/systemconfig/mailconfig.json");
+        // ObjectMapper objectMapper = new ObjectMapper();
+        // JsonNode rootNode = objectMapper.readTree(Files.readString(filePath));
 
-        JsonNode mailConfigJsonNode = rootNode.path("default");
-        if (!rootNode.path(commonService.getTenantId()).isMissingNode())
-            mailConfigJsonNode = rootNode.path(commonService.getTenantId());
+        // JsonNode mailConfigJsonNode = rootNode.path("default");
+        // if (!rootNode.path(commonService.getTenantId()).isMissingNode())
+        //     mailConfigJsonNode = rootNode.path(commonService.getTenantId());
 
-        mailSender.setUsername(mailConfigJsonNode.path("username").asText());
-        mailSender.setPassword(mailConfigJsonNode.path("password").asText());
+        // mailSender.setUsername(mailConfigJsonNode.path("username").asText());
+        // mailSender.setPassword(mailConfigJsonNode.path("password").asText());
+
+        mailSender.setUsername("evyoog@vyoog.com");
+        mailSender.setPassword("mYvyg@2020");
 
         java.util.Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
@@ -125,7 +128,8 @@ public class NotificationService {
         helper.setTo(notification.getRecipient().split(","));
         helper.setSubject(notification.getSubject());
         helper.setText(templateContent, true); // Enable HTML content
-        helper.setFrom(mailConfigJsonNode.path("username").asText());
+        // helper.setFrom(mailConfigJsonNode.path("username").asText());
+        helper.setFrom("evyoog@vyoog.com");
 
         // Send email
         mailSender.send(mimeMessage);
