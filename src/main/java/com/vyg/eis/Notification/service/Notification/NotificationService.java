@@ -119,10 +119,12 @@ public class NotificationService {
         String templateContent = Files.readString(templatePath);
 
         // Replace placeholders with dynamic data
+        if (placeholders != null) {
         for (Map.Entry<String, String> entry : placeholders.entrySet()) {
             templateContent = templateContent.replace("{{" + entry.getKey().toString() + "}}",
                     entry.getValue().toString());
         }
+    }
 
         // Set email details
         helper.setTo(notification.getRecipient().split(","));
