@@ -20,25 +20,22 @@ public class MultiTenantSchemaConnectionProvider implements MultiTenantConnectio
 
     @Autowired
     public MultiTenantSchemaConnectionProvider(DataSource dataSource) {
-        System.out.println("23");
         this.dataSource = dataSource;
     }
 
     @Override
     public Connection getAnyConnection() throws SQLException {
-        System.out.println("29");
         return dataSource.getConnection();
     }
 
     @Override
     public void releaseAnyConnection(Connection connection) throws SQLException {
-        System.out.println("35");
+       
         connection.close();
     }
 
     @Override
     public Connection getConnection(Object tenantIdentifier) throws SQLException {
-        System.out.println("41");
         final Connection connection = getAnyConnection();
         connection.setSchema((String) tenantIdentifier);
         return connection;
@@ -46,7 +43,6 @@ public class MultiTenantSchemaConnectionProvider implements MultiTenantConnectio
 
     @Override
     public void releaseConnection(Object tenantIdentifier, Connection connection) throws SQLException {
-        System.out.println("49");
         connection.setSchema(CurrentTenantResolver.DEFAULT_SCHEMA);
         releaseAnyConnection(connection);
     }

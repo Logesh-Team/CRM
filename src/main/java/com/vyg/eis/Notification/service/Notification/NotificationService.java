@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vyg.eis.Notification.domain.Notification.Notification;
+import com.vyg.eis.Notification.domain.Notification.ReportSchedule;
 import com.vyg.eis.Notification.repository.Notification.NotificationRepository;
 
 import jakarta.mail.MessagingException;
@@ -25,8 +27,9 @@ import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.mail.SimpleMailMessage;
-
+import java.util.List;
 @Service
 public class NotificationService {
 
