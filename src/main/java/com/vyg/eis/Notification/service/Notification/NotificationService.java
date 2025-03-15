@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vyg.eis.Notification.domain.Notification.Notification;
-import com.vyg.eis.Notification.domain.Notification.ReportSchedule;
 import com.vyg.eis.Notification.repository.Notification.NotificationRepository;
 
 import jakarta.mail.MessagingException;
