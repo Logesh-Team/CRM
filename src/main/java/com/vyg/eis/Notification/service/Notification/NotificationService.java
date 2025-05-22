@@ -104,7 +104,7 @@ public class NotificationService {
         // mailSender.setPassword(mailConfigJsonNode.path("password").asText());
 
         mailSender.setUsername("evyoog@vyoog.com");
-        mailSender.setPassword("mYvyg@2020");
+        mailSender.setPassword("duaoggrxjrnnzakg");
 
         java.util.Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
