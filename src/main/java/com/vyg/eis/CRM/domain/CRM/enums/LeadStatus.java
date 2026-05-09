@@ -1,0 +1,16 @@
+package com.vyg.eis.CRM.domain.CRM.enums;
+
+public enum LeadStatus {
+    NEW,
+    AI_CALL_SCHEDULED,
+    AI_CALL_DONE_INTERESTED,
+    AI_CALL_DONE_NOT_INTERESTED,
+    IN_FOLLOW_UP,
+    DEMO_SCHEDULED,
+    DEMO_DONE,
+    QUOTATION_SENT,
+    NEGOTIATION,
+    CONVERTED_WON,
+    CLOSED_LOST,
+    ON_HOLD
+}

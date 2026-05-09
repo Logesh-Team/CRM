@@ -5,7 +5,7 @@ FROM openjdk:23-jdk
 WORKDIR /app
 
 # Copy the JAR file produced by your Spring Boot build into the container
-COPY target/Notification-0.0.1-SNAPSHOT.jar app.jar
+COPY target/CRM-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose the port that the Spring Boot app will run on
 EXPOSE 8080
