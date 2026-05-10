@@ -1,6 +1,7 @@
-spring.datasource.url=jdbc:postgresql://vyg-batch-1.cgtfswn9milw.ap-south-1.rds.amazonaws.com:5432/vygmicroservice
-spring.datasource.username=postgres
-spring.datasource.password=vygpost23
+# Copy this file to application.properties and fill in real values
+spring.datasource.url=jdbc:postgresql://<host>:5432/<db>
+spring.datasource.username=<username>
+spring.datasource.password=<password>
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.hibernate.ddl-auto=update
 
@@ -11,21 +12,17 @@ spring.security.oauth2.resourceserver.multitenant.enabled=true
 spring.security.oauth2.resourceserver.multitenant.resolve-mode=header
 spring.security.oauth2.resourceserver.multitenant.header.header-name=X-TENANT-ID
 
-# logging.level.org.springframework=DEBUG
-# logging.level.org.hibernate=DEBUG
-	
 spring.h2.console.enabled=true
-# spring.h2.console.path=/h2-console    
 server.port=8080
 
 spring.security.oauth2.resourceserver.jwt.issuer-uri=https://user.evyoog.com/realms/eVyoog
 spring.security.oauth2.resourceserver.jwt.jwk-set-uri=https://user.evyoog.com/realms/eVyoog/protocol/openid-connect/certs
 
-# AI Lead Search
-nexcrm.ai.openai-api-key=
+# AI Lead Search — get key from https://console.anthropic.com/
+nexcrm.ai.claude-api-key=sk-ant-...
 
-# JWT
-nexcrm.jwt.secret=NexCRM_VYG_EIS_JWT_Signing_Secret_2024_Platform!
+# JWT — use a long random string, at least 32 chars
+nexcrm.jwt.secret=<your-secret-here>
 nexcrm.jwt.expiry=86400000
 
 # Flyway
